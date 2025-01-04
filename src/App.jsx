@@ -19,12 +19,36 @@ function App() {
     console.log(tasks);
   }
 
+  function handleEditTask(index, editedName) {
+    setTasks((prevTasks) =>
+      prevTasks.map((task, i) =>
+        i === index ? { ...task, name: editedName } : task
+      )
+    );
+  }
+
+  function handleComplete(index) {
+    setTasks((prevTasks) =>
+      prevTasks.map((task, i) =>
+        i === index ? { ...task, completed: !task.completed } : task
+      )
+    );
+  }
+
+  function handleDeletion(index) {
+    setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
+  }
+
   return (
     <>
       <Modal
-        open={modalOpen}
+        open={modalOpen !== false}
         closeModal={() => setModalOpen(false)}
-        addTask={handleAddTask}
+        addTask={
+          modalOpen === true
+            ? handleAddTask
+            : (taskName) => handleEditTask(modalOpen, taskName)
+        }
       />
       <div className="flex flex-col items-center gap-[18px] h-full">
         <h1 className="font-bold text-2xl">TODO LIST</h1>
@@ -34,35 +58,74 @@ function App() {
         <div>
           {tasks.map((task, index) => {
             return (
-              <div
-                key={index}
-                className="flex flex-row justify-between mb-5 w-[520px]"
-              >
-                <div className="flex flex-row gap-7">
-                  {task.completed ? (
-                    <div
-                      key={Math.random}
-                      className="w-[26px] h-[26px] rounded-sm border bg-[#6C63FF] flex items-center justify-center"
-                    >
-                      <img src={TickIcon} alt="tick icon" />
+              <>
+                {task.completed ? (
+                  <div
+                    key={index}
+                    className="flex flex-row justify-between mb-5 w-[520px]"
+                  >
+                    <div className="flex flex-row gap-7">
+                      <div
+                        key={Math.random}
+                        className="w-[26px] h-[26px] rounded-sm border bg-[#6C63FF] flex items-center justify-center hover:cursor-pointer"
+                        onClick={() => handleComplete(index)}
+                      >
+                        <img src={TickIcon} alt="tick icon" />
+                      </div>
+                      <p
+                        key={Math.random()}
+                        className="font-semibold text-xl text-[#25252580] line-through"
+                      >
+                        {task.name}
+                      </p>
                     </div>
-                  ) : (
-                    <div
-                      key={Math.random}
-                      className="w-[26px] h-[26px] rounded-sm border border-[#6C63FF]"
-                    ></div>
-                  )}
-                  <p key={Math.random()}>{task.name}</p>
-                </div>
-                <div className="flex flex-row gap-3">
-                  <img
-                    src={DeleteIcon}
-                    alt="delete icon"
-                    className="w-[18px]"
-                  />
-                  <img src={EditIcon} alt="edit icon" className="w-[18px]" />
-                </div>
-              </div>
+                    <div className="flex flex-row gap-3">
+                      <img
+                        src={EditIcon}
+                        alt="edit icon"
+                        className="w-[18px] hover:cursor-pointer"
+                        onClick={() => setModalOpen(index)}
+                      />
+                      <img
+                        src={DeleteIcon}
+                        alt="delete icon"
+                        className="w-[18px] hover:cursor-pointer"
+                        onClick={() => handleDeletion(index)}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    key={index}
+                    className="flex flex-row justify-between mb-5 w-[520px]"
+                  >
+                    <div className="flex flex-row gap-7">
+                      <div
+                        key={Math.random}
+                        className="w-[26px] h-[26px] rounded-sm border border-[#6C63FF] hover:cursor-pointer"
+                        onClick={() => handleComplete(index)}
+                      ></div>
+                      <p key={Math.random()} className="font-semibold text-xl">
+                        {task.name}
+                      </p>
+                    </div>
+                    <div className="flex flex-row gap-3">
+                      <img
+                        src={EditIcon}
+                        alt="edit icon"
+                        className="w-[18px] hover:cursor-pointer"
+                        onClick={() => setModalOpen(index)}
+                      />
+                      <img
+                        src={DeleteIcon}
+                        alt="delete icon"
+                        className="w-[18px] hover:cursor-pointer"
+                        onClick={() => handleDeletion(index)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </>
             );
           })}
         </div>

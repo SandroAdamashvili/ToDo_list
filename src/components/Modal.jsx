@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function Modal({ open, closeModal, addTask }) {
+export default function Modal({ open, closeModal, addTask, text }) {
   const dialog = useRef();
   const input = useRef();
 
@@ -34,6 +34,7 @@ export default function Modal({ open, closeModal, addTask }) {
               placeholder="Input your note..."
               className="placeholder:text-[#C3C1E5] outline-none w-full border border-[#6C63FF] rounded-[5px] px-3 py-1"
               ref={input}
+              value={text}
             />
           </div>
           <div className="w-full flex flex-row justify-between">
