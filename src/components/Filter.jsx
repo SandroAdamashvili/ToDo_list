@@ -1,7 +1,7 @@
 import ArrDown from "../assets/chevron-down.svg";
 import ArrUp from "../assets/chevron-up.svg";
 import { useContext, useState } from "react";
-import { FilterCtx } from "./MyContext.jsx";
+import { FilterCtx } from "./MyContext.js";
 
 export default function Filter() {
   const { filter, clicked, handleClick, handleFilter } = useContext(FilterCtx);
@@ -26,7 +26,7 @@ export default function Filter() {
         />
       </div>
       <div
-        className={`flex flex-col border border-[#6C63FF] rounded-[5px] w-full text-[#6C63FF] z-10 absolute text-left text-sm ${
+        className={`flex flex-col border border-[#6C63FF] bg-white rounded-[5px] w-full text-[#6C63FF] z-10 absolute text-left text-sm ${
           clicked ? "" : "hidden"
         }`}
       >

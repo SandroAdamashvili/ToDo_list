@@ -4,10 +4,22 @@ import Header from "./components/Header";
 import AddIcon from "./assets/add-icon.svg";
 import Modal from "./components/Modal";
 import Tasks from "./components/Tasks";
+import { FilterCtx } from "./components/MyContext.js";
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
+  const [clicked, setClicked] = useState(false);
+  const [filter, setFilter] = useState("All");
+
+  function handleClick() {
+    clicked ? setClicked(false) : setClicked(true);
+  }
+
+  function handleFilter(filterName) {
+    setFilter(filterName);
+    clicked ? setClicked(false) : setClicked(true);
+  }
 
   function handleAddTask(taskName) {
     setTasks((prevTasks) => [
@@ -42,6 +54,7 @@ function App() {
   }
 
   console.log(tasks);
+  console.log(filter);
 
   return (
     <>
@@ -58,13 +71,19 @@ function App() {
         <h1 className="font-bold text-2xl">TODO LIST</h1>
 
         <div className="w-[750px] mb-4">
-          <Header />
+          <FilterCtx.Provider
+            value={{ filter, clicked, handleClick, handleFilter }}
+          >
+            <Header />
+          </FilterCtx.Provider>
         </div>
         <div>
           {tasks.map((task, index) => (
             <Tasks
               task={task}
               index={index}
+              filter={filter}
+              key={Math.random()}
               handleComplete={handleComplete}
               handleDeletion={handleDeletion}
               handleModalOpen={handleModalOpen}
