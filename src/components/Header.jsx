@@ -3,6 +3,7 @@ import Search from "../assets/search-icon.svg";
 import Filter from "./Filter";
 import MoonIcon from "../assets/moon-icon.svg";
 import SunIcon from "../assets/sun-icon.svg";
+import MyContext from "./MyContext.jsx";
 
 export default function Header() {
   const [darkMode, setDarkMode] = useState(false);
@@ -21,7 +22,9 @@ export default function Header() {
         />
         <img src={Search} alt="search icon" className="w-[21px]" />
       </div>
-      <Filter />
+      <MyContext>
+        <Filter />
+      </MyContext>
       <div
         className="p-4 bg-[#6C63FF] rounded-md flex justify-center hover:cursor-pointer"
         onClick={handleDarkMode}

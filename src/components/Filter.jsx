@@ -1,19 +1,10 @@
 import ArrDown from "../assets/chevron-down.svg";
 import ArrUp from "../assets/chevron-up.svg";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { FilterCtx } from "./MyContext.jsx";
 
 export default function Filter() {
-  const [clicked, setClicked] = useState(false);
-  const [filter, setFilter] = useState("All");
-
-  function handleClick() {
-    clicked ? setClicked(false) : setClicked(true);
-  }
-
-  function handleFilter(filterName) {
-    setFilter(filterName);
-    clicked ? setClicked(false) : setClicked(true);
-  }
+  const { filter, clicked, handleClick, handleFilter } = useContext(FilterCtx);
 
   return (
     <div className="w-fit relative">
