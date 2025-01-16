@@ -5,12 +5,14 @@ import AddIcon from "./assets/add-icon.svg";
 import Modal from "./components/Modal";
 import Tasks from "./components/Tasks";
 import { FilterCtx } from "./components/MyContext.js";
+import EmptyPng from "./assets/empty.png";
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [filter, setFilter] = useState("All");
+  const [filterSearch, setFilterSearch] = useState("");
 
   function handleClick() {
     clicked ? setClicked(false) : setClicked(true);
@@ -74,7 +76,10 @@ function App() {
           <FilterCtx.Provider
             value={{ filter, clicked, handleClick, handleFilter }}
           >
-            <Header />
+            <Header
+              filterSearch={filterSearch}
+              setFilterSearch={setFilterSearch}
+            />
           </FilterCtx.Provider>
         </div>
         <div>
@@ -83,12 +88,19 @@ function App() {
               task={task}
               index={index}
               filter={filter}
+              filterSearch={filterSearch}
               key={Math.random()}
               handleComplete={handleComplete}
               handleDeletion={handleDeletion}
               handleModalOpen={handleModalOpen}
             />
           ))}
+          {tasks.length === 0 && (
+            <div>
+              <img src={EmptyPng} />
+              <p>Empty...</p>
+            </div>
+          )}
         </div>
 
         <div
